@@ -5,21 +5,20 @@
   "description": "Node & C++ example",
   "main": "binding.gyp",
   "dependencies": {
-    "bcrypt": "latest",
-    "electron": "latest",
-    "electron-json-storage": "latest",
-    "form-data": "latest",
-    "jquery": "latest",
-    "nan": "latest"
+    "nan": "^2.12.1",
+    "node-gyp": "^3.8.0"
   },
   "devDependencies": {
     "electron-rebuild": "^1.8.4"
   },
   "scripts": {
+    "start": "clear && node ./src/main.js",
     "all": "cls && npm run clean && npm run compile && npm start",
+    "allmac": "clear && npm run clean && npm run compile && npm i && node ./src/main.js",
     "clean": "node-gyp clean",
-    "compile": "electron-rebuild",
-    "start": "electron ./src/app.js"
+    "compile": "node-gyp rebuild",
+    "compile-2": "electron-rebuild",
+    "start-e": "electron ./src/main.js"
   },
   "repository": {
     "type": "git",
