@@ -1,5 +1,20 @@
 #include "sample.h"
 
+// Helper function to convert to a string
+std::string ConvertToString(v8::Local<v8::Value> nodeString){
+  return *Nan::Utf8String(nodeString->ToString());
+}
+
+// Helper function to convert to an integer
+int ConvertToInt(v8::Local<v8::Value> nodeInt){
+  return nodeInt->Int32Value(Nan::GetCurrentContext()).FromJust();
+}
+
+// Helper function to convert to a callback
+int ConvertToCallback(v8::Local<v8::Value> nodeCallback){
+  return new Nan::Callback(nodeCallback.As<v8::Function>());
+}
+
 // All functions that you can call from Node.js
 NAN_MODULE_INIT(ScreenCapture::Init){
   Nan::SetMethod(target, "Testing"       , Testing);
@@ -11,11 +26,13 @@ NAN_MODULE_INIT(ScreenCapture::Init){
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 NAN_METHOD(ScreenCapture::Testing){
-  std::string    s1 = *Nan::Utf8String(info[0]->ToString());
-  std::string    s2 = *Nan::Utf8String(info[1]->ToString());
-  int            i1 = info[2]->NumberValue();
-  int            i2 = info[3]->NumberValue();
-  Nan::Callback *cb = new Nan::Callback(info[4].As<v8::Function>());
+  // std::string    s1 = *Nan::Utf8String(info[0]->ToString());
+  std::string    s1 = ConvertToString(info[0]);
+  std::string    s2 = ConvertToString(info[1]);
+  int            i1 = ConvertToInt(info[2]);
+  int            i2 = ConvertToInt(info[3]);
+
+  Nan::Callback *cb = ConvertToCallback(info[4]);
 
   Nan::AsyncQueueWorker(new JustSomeFunctionNameThing(
     s1,
