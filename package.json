@@ -1,0 +1,30 @@
+{
+  "name": "node-c-example",
+  "version": "0.1.0",
+  "author": "Tundra Fizz",
+  "description": "Node & C++ example",
+  "main": "binding.gyp",
+  "dependencies": {
+    "bcrypt": "latest",
+    "electron": "latest",
+    "electron-json-storage": "latest",
+    "form-data": "latest",
+    "jquery": "latest",
+    "nan": "latest"
+  },
+  "devDependencies": {
+    "electron-rebuild": "^1.8.4"
+  },
+  "scripts": {
+    "all": "cls && npm run clean && npm run compile && npm start",
+    "clean": "node-gyp clean",
+    "compile": "electron-rebuild",
+    "start": "electron ./src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TundraFizz/Frysta"
+  },
+  "gypfile": true,
+  "license": "ISC"
+}
