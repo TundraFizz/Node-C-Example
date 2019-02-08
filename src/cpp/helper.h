@@ -1,31 +1,31 @@
 #include <nan.h>
 
 // JS string => C++ string
-std::string ConvertToString(v8::Local<v8::Value> nodeString){
-  return *Nan::Utf8String(nodeString->ToString());
+std::string ConvertToString(v8::Local<v8::Value> &nodeString){
+  return *Nan::Utf8String(nodeString->ToString(Nan::GetCurrentContext()).FromMaybe(v8::Local<v8::String>()));
 }
 
 // JS int => C++ int
-int ConvertToInt(v8::Local<v8::Value> nodeInt){
+int ConvertToInt(v8::Local<v8::Value> &nodeInt){
   return nodeInt->Int32Value(Nan::GetCurrentContext()).FromJust();
 }
 
 // Helper function to convert to a callback
-Nan::Callback* ConvertToCallback(v8::Local<v8::Value> nodeCallback){
+Nan::Callback* ConvertToCallback(v8::Local<v8::Value> &nodeCallback){
   return new Nan::Callback(nodeCallback.As<v8::Function>());
 }
 
 // C++ string => JS string
-v8::Local<v8::Value> JavaScriptString(std::string str){
+v8::Local<v8::Value> JavaScriptString(std::string &str){
   return v8::String::NewFromUtf8(v8::Isolate::GetCurrent(), str.c_str());
 }
 
 // C++ int => JS int
-v8::Local<v8::Value> JavaScriptInt(int i){
+v8::Local<v8::Value> JavaScriptInt(int &i){
   return v8::Number::New(v8::Isolate::GetCurrent(), i);
 }
 
-void ExecuteCallback(Nan::Callback *callback, std::vector< v8::Local<v8::Value> > &vecArguments){
+void ExecuteCallback(Nan::Callback *callback, std::vector<v8::Local<v8::Value>> &vecArguments){
   // Dynamically allocate an array of Local<Value>
   size_t argumentCount = vecArguments.size();
   v8::Local<v8::Value> *arguments = new v8::Local<v8::Value> [argumentCount];
