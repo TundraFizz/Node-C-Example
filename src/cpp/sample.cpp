@@ -16,8 +16,6 @@ NAN_METHOD(ScreenCapture::Testing){
   ));
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
 void JustSomeFunctionNameThing::Execute(){
   fullName = firstName + " " + lastName;
   intTotal = myInt1 + myInt2;
@@ -31,32 +29,13 @@ void JustSomeFunctionNameThing::Execute(){
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 NAN_METHOD(ScreenCapture::TakeScreenshot){
+  Nan::Callback *cb = ConvertToCallback(info[0]);
+
   Nan::AsyncQueueWorker(new MyAsyncWorker(
-    new Nan::Callback(info[1].As<v8::Function>())
+    cb
   ));
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
-MyAsyncWorker::MyAsyncWorker(Nan::Callback *callback) : Nan::AsyncWorker(callback){
-  std::cout << "=============== INIT ===============\n";
-}
-
 void MyAsyncWorker::Execute(){
-  std::cout << "=============== MAIN ===============\n";
-}
-
-void MyAsyncWorker::HandleOKCallback(){
-  std::cout << "================ OK ================\n";
-
-  v8::Local<v8::Value> arguments[] = {
-    v8::String::NewFromUtf8(v8::Isolate::GetCurrent(), "Does this work")
-  };
-
-  size_t argumentCount = sizeof(arguments)/sizeof(*arguments);
-
-  // A dummy AsyncResource object needs to be created as a placeholder
-  Nan::AsyncResource *dummy = new Nan::AsyncResource(Nan::New("").ToLocalChecked());
-
-  callback->Call(argumentCount, arguments, dummy);
+  std::cout << "MyAsyncWorker::Execute()\n";
 }

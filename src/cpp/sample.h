@@ -11,9 +11,24 @@ struct ScreenCapture {
 class MyAsyncWorker: public Nan::AsyncWorker{
   public:
 
-  MyAsyncWorker(Nan::Callback *callback);
-  void Execute();          // Automatically called right after the Initializer
-  void HandleOKCallback(); // Called once the program is completed
+  // Mandatory special functions
+  // 1. Constructor
+  // 2. Execute (Automatically called right after the Constructor)
+  // 3. HandleOKCallback (Special callback function)
+
+  MyAsyncWorker(Nan::Callback *callback):
+    Nan::AsyncWorker(callback)
+    {}
+
+  void Execute();
+
+  void HandleOKCallback(){
+    std::vector<v8::Local<v8::Value>> arguments = {
+      JavaScriptInt(12345)
+    };
+
+    ExecuteCallback(callback, arguments);
+  }
 };
 
 // Async worker for: Testing
