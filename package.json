@@ -8,12 +8,10 @@
     "nan": "^2.12.1",
     "node-gyp": "^3.8.0"
   },
-  "devDependencies": {
-    "electron-rebuild": "^1.8.4"
-  },
+  "devDependencies": {},
   "scripts": {
     "start": "clear && node ./src/main.js",
-    "all": "cls && npm run clean && npm run compile && npm start",
+    "all": "cls && npm run clean && npm run compile && npm i && node ./src/main.js",
     "allmac": "clear && npm run clean && npm run compile && npm i && node ./src/main.js",
     "clean": "node-gyp clean",
     "compile": "node-gyp rebuild",
