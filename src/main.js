@@ -4,4 +4,9 @@ cppModule.Testing("John", "Doe", 123, 456, function(result, second){
   console.log("WE ARE BACK IN NODE.JS");
   console.log(result);
   console.log(second);
+
+  cppModule.TakeScreenshot(function(result){
+    console.log("TakeScreenshot:", result);
+  });
 });
+
