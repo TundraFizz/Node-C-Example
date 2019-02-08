@@ -21,7 +21,7 @@ v8::Local<v8::Value> JavaScriptString(std::string &str){
 }
 
 // C++ int => JS int
-v8::Local<v8::Value> JavaScriptInt(int &i){
+v8::Local<v8::Value> JavaScriptInt(int i){
   return v8::Number::New(v8::Isolate::GetCurrent(), i);
 }
 
